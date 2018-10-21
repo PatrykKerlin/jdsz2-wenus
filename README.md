@@ -15,7 +15,6 @@ Analiza danych w zależności od języka.
 Template | Przyklad 
 ---------|---------
 <kataolog> <numer_taska> | eksploracja_danych JDSZ2WEN-4
-
 <krotki_opis_z_jiry>     | Zdefiniowanie 15-20 zapytań dotyczących grup językowych - od ogółu do szczegółu
 
 
@@ -25,6 +24,7 @@ Template | Przyklad
 2. Ilość dochodu w danym języku
 
 **wybór 5-6 grup językowych o największym dochodzie**
+
 **analizę warto przeprowadzić na przestrzeni kilku lat**
 
 3. Ilość wniosków 5 grup jezykowych na przestrzeni czasu (np. 5 lat)
@@ -39,6 +39,13 @@ Template | Przyklad
 12. Różnica w kwocie rekompensaty oryginalnej i końcowej dla 5 grup językowych. 
 13. Typ podróży w zależności od dochodu i języka
 14. Oplata za usluge prawnicza procent
+15. Czas realizacji a język 
+
+
+# Notatki
+1. Spojrzenie od strony klientów i biznesu przy przedstawianiu danych.
+2. Miary jakościowe. 
+2. Spostrzeżenia jak są procesowane wnioski w zależności od języka?
 
 
 
