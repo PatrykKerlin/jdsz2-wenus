@@ -16,7 +16,7 @@ Template | Przyklad
 ---------|---------
 <kataolog> <numer_taska> | eksploracja_danych JDSZ2WEN-4
 
-<krotki_opis_z_jiry> | Zdefiniowanie 15-20 zapytań dotyczących grup językowych - od ogółu do szczegółu
+<krotki_opis_z_jiry>     | Zdefiniowanie 15-20 zapytań dotyczących grup językowych - od ogółu do szczegółu
 
 
 # Lista zapytań
