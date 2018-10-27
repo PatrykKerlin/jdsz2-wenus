@@ -1,0 +1,25 @@
+-- dochod a jezyk - wszystkie jezyki
+
+select jezyk, sum(kwota_rekompensaty*oplata_za_usluge_procent)/100 as dochod
+from wnioski
+group by jezyk
+order by dochod desc;
+
+-- dochod a jezyk - limit 10
+
+select jezyk, sum(kwota_rekompensaty*oplata_za_usluge_procent)/100 as dochod
+from wnioski where jezyk in ('en', 'pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es')
+group by jezyk
+order by dochod desc;
+
+-- dochod a jezyk - angielski vs reszta
+
+with dochod_10jezyk as
+( select (case when jezyk <> 'en' then 'others' else 'en' end) jezyk, sum(kwota_rekompensaty*oplata_za_usluge_procent)/100 as dochod1
+  from wnioski where jezyk in ('en', 'pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es')
+  group by jezyk
+  order by dochod1 desc)
+
+select distinct jezyk, sum(dochod1) over (partition by jezyk)
+from dochod_10jezyk
+group by jezyk, dochod1;
