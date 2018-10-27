@@ -1,19 +1,25 @@
+/* Eksploracja Danych - status wniosku ze wzgledu na jezyk
+i stan wniosku */
+
 ---- dla wszystkich ---------------
 SELECT COUNT(1) as ilosc_wnioskow, w.stan_wniosku as stan_wniosku_dla_wszystkich_jezykow
 FROM wnioski w
-GROUP BY stan_wniosku
+WHERE w.stan_wniosku like 'wyp%' or w.stan_wniosku like 'odrz%'
+GROUP BY w.stan_wniosku
 ORDER by COUNT(1) DESC
 
 ---- dla 10 bez en ----------------
 SELECT COUNT(1) as ilosc_wnioskow, w.stan_wniosku as stan_wnioskow_dla_10, lower(w.jezyk) as jezyk
 from wnioski w
 Where w.jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es')
+and (w.stan_wniosku like 'wyp%' or w.stan_wniosku like 'odrz%')
 GROUP BY w.jezyk, w.stan_wniosku
 ORDER BY w.jezyk, COUNT (1) DESC
 
 ---- dla en---------------
-SELECT COUNT (1) as ilosc_wnioskow, stan_wniosku as stan_wniosku_dla_en
-FROM wnioski
-WHERE lower(jezyk) = 'en'
-GROUP BY stan_wniosku
+SELECT COUNT (1) as ilosc_wnioskow, w.stan_wniosku as stan_wniosku_dla_en
+FROM wnioski w
+WHERE lower(jezyk) = 'en' and
+w.stan_wniosku like 'wyp%' or w.stan_wniosku like 'odrz%'
+GROUP BY w.stan_wniosku
 ORDER by COUNT (1) DESC

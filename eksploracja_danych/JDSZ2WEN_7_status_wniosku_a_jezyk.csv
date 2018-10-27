@@ -1,104 +1,37 @@
-ilosc_wnioskow,stan_wniosku_dla_wszystkich_jezykow,,ilosc_wnioskow,stan_wniosku_dla_top10_jezykow,jezyk
-83432,nowy,,1633,wyplacony,da
-43326,wyplacony,,1418,zamkniety,da
-14076,zamkniety,,842,akcja sadowa,da
-8314,akcja sadowa,,830,odrzucony po analizie,da
-6417,odrzucony po analizie,,539,odrzucony prawnie,da
-5439,odrzucony prawnie,,362,odrzucony przez operatora,da
-4973,odrzucony przez operatora,,320,zaakceptowany przez operatora,da
-4158,wyslany do operatora,,302,wyslany do operatora,da
-3923,zaakceptowany przez operatora,,277,nowy,da
-2406,analiza zaakceptowana,,57,analiza zaakceptowana,da
-1887,wygrany w sadzie,,56,wygrany w sadzie,da
-1384,przegrany w sadzie,,13,przegrany w sadzie,da
-,,,718,zamkniety,de
+ilosc_wnioskow,stan_wniosku_dla_wszystkich_jezykow,,ilosc_wnioskow,stan_wnioskow_dla_10,jezyk
+43326,wyplacony,,1633,wyplacony,da
+6417,odrzucony po analizie,,830,odrzucony po analizie,da
+5439,odrzucony prawnie,,539,odrzucony prawnie,da
+4973,odrzucony przez operatora,,362,odrzucony przez operatora,da
 ,,,458,wyplacony,de
-ilosc_wnioskow,stan_wniosku_dla_en,,332,akcja sadowa,de
-81137,nowy,,290,odrzucony po analizie,de
-32830,wyplacony,,286,odrzucony prawnie,de
-7038,zamkniety,,246,wyslany do operatora,de
-4143,akcja sadowa,,169,nowy,de
-3623,odrzucony przez operatora,,142,odrzucony przez operatora,de
-3320,odrzucony prawnie,,110,zaakceptowany przez operatora,de
-2836,odrzucony po analizie,,67,analiza zaakceptowana,de
-2832,zaakceptowany przez operatora,,7,wygrany w sadzie,de
-2224,wyslany do operatora,,583,zamkniety,es
-2046,analiza zaakceptowana,,291,akcja sadowa,es
-1752,wygrany w sadzie,,234,wyplacony,es
-1353,przegrany w sadzie,,123,odrzucony po analizie,es
-,,,99,nowy,es
-,,,97,odrzucony prawnie,es
-,,,96,wyslany do operatora,es
+,,,290,odrzucony po analizie,de
+ilosc_wnioskow,stan_wniosku_dla_en,,286,odrzucony prawnie,de
+32830,wyplacony,,142,odrzucony przez operatora,de
+6417,odrzucony po analizie,,234,wyplacony,es
+5439,odrzucony prawnie,,123,odrzucony po analizie,es
+4973,odrzucony przez operatora,,97,odrzucony prawnie,es
 ,,,65,odrzucony przez operatora,es
-,,,59,zaakceptowany przez operatora,es
-,,,17,wygrany w sadzie,es
-,,,4,analiza zaakceptowana,es
-,,,458,akcja sadowa,fi
 ,,,378,wyplacony,fi
 ,,,325,odrzucony po analizie,fi
-,,,307,zamkniety,fi
-,,,175,wyslany do operatora,fi
 ,,,146,odrzucony prawnie,fi
-,,,107,nowy,fi
 ,,,95,odrzucony przez operatora,fi
-,,,89,zaakceptowany przez operatora,fi
-,,,13,analiza zaakceptowana,fi
-,,,6,przegrany w sadzie,fi
-,,,6,wygrany w sadzie,fi
-,,,493,zamkniety,it
-,,,351,akcja sadowa,it
 ,,,271,odrzucony po analizie,it
 ,,,206,wyplacony,it
-,,,176,nowy,it
 ,,,168,odrzucony prawnie,it
-,,,158,wyslany do operatora,it
 ,,,103,odrzucony przez operatora,it
-,,,46,zaakceptowany przez operatora,it
-,,,9,wygrany w sadzie,it
-,,,9,analiza zaakceptowana,it
 ,,,658,odrzucony po analizie,nb
-,,,401,zamkniety,nb
-,,,327,akcja sadowa,nb
 ,,,315,wyplacony,nb
-,,,286,wyslany do operatora,nb
-,,,164,nowy,nb
 ,,,154,odrzucony prawnie,nb
-,,,113,zaakceptowany przez operatora,nb
 ,,,92,odrzucony przez operatora,nb
-,,,62,analiza zaakceptowana,nb
 ,,,6108,wyplacony,pl
-,,,631,nowy,pl
-,,,415,zamkniety,pl
-,,,279,akcja sadowa,pl
 ,,,146,odrzucony prawnie,pl
 ,,,124,odrzucony po analizie,pl
 ,,,102,odrzucony przez operatora,pl
-,,,62,wyslany do operatora,pl
-,,,53,zaakceptowany przez operatora,pl
-,,,32,analiza zaakceptowana,pl
-,,,17,wygrany w sadzie,pl
-,,,4,przegrany w sadzie,pl
-,,,1479,zamkniety,pt
-,,,741,akcja sadowa,pt
 ,,,357,wyplacony,pt
 ,,,215,odrzucony prawnie,pt
 ,,,133,odrzucony po analizie,pt
-,,,121,nowy,pt
 ,,,121,odrzucony przez operatora,pt
-,,,92,wyslany do operatora,pt
-,,,53,zaakceptowany przez operatora,pt
-,,,11,analiza zaakceptowana,pt
-,,,7,wygrany w sadzie,pt
-,,,3,przegrany w sadzie,pt
-,,,844,zamkniety,sv
 ,,,587,wyplacony,sv
 ,,,494,odrzucony po analizie,sv
-,,,370,akcja sadowa,sv
-,,,340,wyslany do operatora,sv
 ,,,230,odrzucony prawnie,sv
 ,,,185,odrzucony przez operatora,sv
-,,,183,zaakceptowany przez operatora,sv
-,,,170,nowy,sv
-,,,61,analiza zaakceptowana,sv
-,,,11,wygrany w sadzie,sv
-,,,4,przegrany w sadzie,sv
