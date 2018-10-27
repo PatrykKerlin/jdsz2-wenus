@@ -10,7 +10,7 @@ Analiza danych w zależności od języka.
    * użyte zapytania (Select) wraz z krótką informacją co zostało sprawdzone (wnioski)
    * dane w formie csv 
 
-## 2. Template nazwy do tworzenia taskow w Jirze
+## 2. Template nazwy do tworzenia commitow
 
 Template | Przyklad 
 ---------|---------
