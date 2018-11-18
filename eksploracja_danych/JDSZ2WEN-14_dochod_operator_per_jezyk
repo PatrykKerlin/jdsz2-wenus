@@ -1,1 +1,17 @@
+  (select distinct rok,jezyk,identyfikator_operatora,
+                      (sum(kwota_rekompensaty * oplata_za_usluge_procent) / 100) as dochod
 
+  from(
+select w.id id_wniosku, kwota_rekompensaty, oplata_za_usluge_procent, jezyk,
+       (extract (year from w.data_utworzenia)) as rok,
+       sp.identyfikator_operatora
+            from wnioski w
+                   join podroze p on w.id = p.id_wniosku
+                   join szczegoly_podrozy sp on p.id = sp.id
+      where jezyk
+              in ('en','da','pl','sv','pt') and
+       (extract (year from w.data_utworzenia)) in ('2013','2014','2015','2016','2017')
+
+      ) as tab1
+  group by rok, jezyk,identyfikator_operatora
+  order by rok)
