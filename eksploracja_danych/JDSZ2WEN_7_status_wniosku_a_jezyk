@@ -26,14 +26,24 @@ ORDER by COUNT (1) DESC
 
 
 
------
-SELECT
-      Count(Case when jezyk like 'en' then 1 end) as angielski,
-      Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
-      Count(*) as wszystkie,
-      Sum(kwota_rekompensaty) as suma_rekompensat,
-      stan_wniosku
-from wnioski
-where stan_wniosku like 'wyp%' or stan_wniosku like 'odrz%'
-GROUP by stan_wniosku
-ORDER by stan_wniosku DESC
+---/*-wyliczenie wszystkich odrzuconych i wyplaconych dla en oraz 10 jezykow jako inne_jezyki
+grupowanie po stanie wniosku oraz roku
+wniski z roku 2018 zostały odfiltrowane
+wszystkie wnioski ze stanem rozpoczynającym się od 'odrzucone' zostały zgrupowane w jedno
+
+*/
+With tab1 as (
+              SELECT
+              Count(Case when jezyk like 'en' then 1 end) as angielski,
+              Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+              Count(*) as wszystkie,
+              round(Sum(kwota_rekompensaty),2) as suma_rekompensat,
+              LEFT(stan_wniosku,9) as stan,
+              date_part('year',data_utworzenia) as rok
+              from wnioski
+              where (stan_wniosku like 'wyp%' or stan_wniosku like 'odrz%') and date_part('year',data_utworzenia) not in ('2018')
+              GROUP by LEFT(stan_wniosku,9), rok
+
+)
+SELECT *
+ from tab1
