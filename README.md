@@ -8,7 +8,6 @@ Analiza danych w zależności od języka.
 * commitujemy do wybranych katalogow: eksploracja_danych, zapytania_sql itp. w zaleznosci od typu zapytania lub taska
 * w commicie powinny znajdować się następujące pliki: 
    * użyte zapytania (Select) wraz z krótką informacją co zostało sprawdzone (wnioski)
-   * dane w formie csv 
 
 ## 2. Template nazwy do tworzenia commitow
 
