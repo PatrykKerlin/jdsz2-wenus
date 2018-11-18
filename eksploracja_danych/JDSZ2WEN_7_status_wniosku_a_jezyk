@@ -23,3 +23,17 @@ WHERE lower(jezyk) = 'en' and
 w.stan_wniosku like 'wyp%' or w.stan_wniosku like 'odrz%'
 GROUP BY w.stan_wniosku
 ORDER by COUNT (1) DESC
+
+
+
+-----
+SELECT
+      Count(Case when jezyk like 'en' then 1 end) as angielski,
+      Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+      Count(*) as wszystkie,
+      Sum(kwota_rekompensaty) as suma_rekompensat,
+      stan_wniosku
+from wnioski
+where stan_wniosku like 'wyp%' or stan_wniosku like 'odrz%'
+GROUP by stan_wniosku
+ORDER by stan_wniosku DESC
