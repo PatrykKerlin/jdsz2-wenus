@@ -1,5 +1,0 @@
---ilosc wnioskow w rozbiciu na jezyki
-select jezyk, count(1)
-from wnioski
-group by jezyk
-order by count(1) desc;
