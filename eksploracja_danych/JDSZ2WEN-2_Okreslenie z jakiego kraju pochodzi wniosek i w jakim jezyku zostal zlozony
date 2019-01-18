@@ -1,7 +1,0 @@
---okresnie z jakiego kraju pochodzi wniosek i w jakim jezyku zostal zlozony
---wyznaczone dla ilości wnioskow > 100
-select jezyk, kod_kraju, count(1)
-from wnioski
-group by jezyk, kod_kraju
-having count(1) > 100
-order by jezyk, count(1) desc, kod_kraju;
