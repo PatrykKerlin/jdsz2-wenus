@@ -1,5 +1,0 @@
---ile zlożonych wnioskow wg poszczegolnych krajow
-select kod_kraju, count(wnioski)
-from wnioski
-group by kod_kraju
-order by count(kod_kraju) desc;
