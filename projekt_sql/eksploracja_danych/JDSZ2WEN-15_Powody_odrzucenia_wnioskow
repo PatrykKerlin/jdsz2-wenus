@@ -1,0 +1,17 @@
+/*
+Powody odrzucenia operatora w zależności od języka en oraz inne
+oraz stan wniosku
+
+*/
+with tab1 as (
+SELECT * from wnioski
+where date_part('year',data_utworzenia) not in ('2018')
+and stan_wniosku like 'odrz%'
+)
+SELECT
+       Count(Case when jezyk like 'en' then 1 end) as angielski,
+       Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+       powod_operatora, stan_wniosku
+from tab1
+Group by powod_operatora, stan_wniosku
+Order by angielski DESC ;

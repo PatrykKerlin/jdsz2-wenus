@@ -1,0 +1,55 @@
+-- dochod a jezyk - wszystkie jezyki
+
+select jezyk, sum(kwota_rekompensaty*oplata_za_usluge_procent/100) over (partition by extract(year from data_utworzenia))as dochod, extract(year from data_utworzenia) rok
+from wnioski
+group by jezyk, data_utworzenia, kwota_rekompensaty, oplata_za_usluge_procent;
+
+-- dochod a jezyk - limit 10
+
+select jezyk, sum(kwota_rekompensaty*oplata_za_usluge_procent)/100 as dochod
+from wnioski where jezyk in ('en', 'pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es')
+group by jezyk
+order by dochod desc;
+
+-- dochod a jezyk - angielski vs reszta
+
+with dochod_jezyk as
+( select (case when jezyk <> 'en' then 'others' else 'en' end) jezyk, sum(kwota_rekompensaty*oplata_za_usluge_procent)/100 as dochod1
+  from wnioski
+  group by jezyk
+  order by dochod1 desc),
+
+dochod_2jezyk as
+( select distinct jezyk, sum(dochod1) over (partition by jezyk)
+  from dochod_jezyk
+  group by jezyk, dochod1)
+
+select * from dochod_2jezyk;
+
+--- dochod a jezyk a rok
+
+with dochod_jezyk_data as
+  (select jezyk, sum(kwota_rekompensaty*oplata_za_usluge_procent/100) as dochod, data_utworzenia
+   from wnioski
+  group by jezyk, data_utworzenia),
+
+dochod_jezyk_rok as
+(select jezyk, dochod, extract(year from data_utworzenia) rok from dochod_jezyk_data
+order by jezyk)
+
+select *, sum(dochod) over (partition by rok order by jezyk, rok) from dochod_jezyk_rok
+group by rok, jezyk, dochod
+order by jezyk;
+
+select distinct extract(year from data_utworzenia) from wnioski;
+
+with jezyk_rok_dochody as(
+select (case when jezyk <> 'en' then 'others' else 'en' end) jezyk, sum(kwota_rekompensaty*oplata_za_usluge_procent/100) as dochod, date_part('year', data_utworzenia) rok
+from wnioski
+group by data_utworzenia, jezyk
+order by jezyk)
+
+select distinct jezyk, sum(dochod) over (partition by jezyk, rok order by rok), rok
+from jezyk_rok_dochody
+order by jezyk, rok;
+

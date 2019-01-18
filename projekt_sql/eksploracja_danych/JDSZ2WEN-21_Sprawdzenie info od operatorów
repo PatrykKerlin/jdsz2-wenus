@@ -1,0 +1,5 @@
+--dane do operatorow
+select partner, jezyk, count(1)
+from m_dane_od_partnerow
+group by  partner, jezyk
+order by partner, count(1) desc;

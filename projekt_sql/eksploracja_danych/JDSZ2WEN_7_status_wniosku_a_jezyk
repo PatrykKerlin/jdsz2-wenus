@@ -1,0 +1,219 @@
+------------wyliczenie wszystkich odrzuconych i wyplaconych dla en oraz 10 jezykow jako other
+With tab1 as (
+              SELECT date_part('year',data_utworzenia) as rok,
+              Count(Case when jezyk like 'en' then 1 end) as angielski,
+              Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+              --Count(*) as wszystkie,
+              LEFT(stan_wniosku,9) as stan
+              from wnioski
+              where (stan_wniosku like 'wyp%' or stan_wniosku like 'odrz%') and date_part('year',data_utworzenia) not in ('2018')
+              GROUP by LEFT(stan_wniosku,9), rok
+              order by rok
+),
+tab2 as (
+Select Count(Case when jezyk like 'en' then 1 end) as angielski_wszystkie,
+       Count(Case when jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as Inne_wszystkie,
+       extract (year from data_utworzenia) as rok
+from wnioski
+where extract (year from data_utworzenia) not in ('2018')
+group by extract (year from data_utworzenia)
+
+)
+SELECT *, (angielski::numeric/angielski_wszystkie)::numeric as procent_ang, (inne_jezyki::numeric/inne_wszystkie) as procent_inne
+ from tab1
+ join tab2 on tab1.rok =tab2.rok;
+
+
+
+----- wyliczenie odrzuconych dla angielskiego i inyych
+With tab1 as (
+              SELECT date_part('year',data_utworzenia) as rok,
+              Count(Case when jezyk like 'en' then 1 end) as angielski,
+              Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+              --Count(*) as wszystkie,
+              LEFT(stan_wniosku,9) as stan
+              from wnioski
+              where (stan_wniosku like 'odrz%') and date_part('year',data_utworzenia) not in ('2018')
+              GROUP by LEFT(stan_wniosku,9), rok
+              order by rok
+),
+tab2 as (
+Select Count(Case when jezyk like 'en' then 1 end) as angielski_zlozone,
+       Count(Case when jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as Inne_zlozone,
+       extract (year from data_utworzenia) as rok
+from wnioski
+where extract (year from data_utworzenia) not in ('2018')
+group by extract (year from data_utworzenia)
+
+)
+SELECT *, (angielski::numeric/angielski_zlozone)::numeric as procent_ang, (inne_jezyki::numeric/inne_zlozone) as procent_inne
+ from tab1
+ join tab2 on tab1.rok =tab2.rok;
+
+
+
+----- wyliczenie wyplaconych dla angielskiego i inyych
+With tab1 as (
+              SELECT date_part('year',data_utworzenia) as rok,
+              Count(Case when jezyk like 'en' then 1 end) as angielski,
+              Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+              --Count(*) as wszystkie,
+              LEFT(stan_wniosku,9) as stan
+              from wnioski
+              where (stan_wniosku like 'wypla%') and date_part('year',data_utworzenia) not in ('2018')
+              GROUP by LEFT(stan_wniosku,9), rok
+              order by rok
+),
+tab2 as (
+Select Count(Case when jezyk like 'en' then 1 end) as angielski_zlozone,
+       Count(Case when jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as Inne_zlozone,
+       extract (year from data_utworzenia) as rok
+from wnioski
+where extract (year from data_utworzenia) not in ('2018')
+group by extract (year from data_utworzenia)
+
+)
+SELECT *, (angielski::numeric/angielski_zlozone)::numeric as procent_ang, (inne_jezyki::numeric/inne_zlozone) as procent_inne
+ from tab1
+ join tab2 on tab1.rok =tab2.rok;
+
+-- sparwdzenie ilosc wnioskow zlozonych w innych jezykach powwino byc ok 6000 w 2017
+
+SELECT Count(Case when jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as Inne_zlozone,
+        extract (year from data_utworzenia)
+from wnioski
+where stan_wniosku like 'wyp%'
+group by extract(year from data_utworzenia)
+--- zgadza się!
+
+---Analiza 2017 roku dla jezyka angielskiego i statusu wniosku
+
+SELECT stan_wniosku, Count(*)
+from wnioski
+where extract(year from data_utworzenia) = 2017 and jezyk like 'en'
+group by stan_wniosku
+order by Count(*) desc
+
+
+---zgrupowane stany wnioskow 2017 dla innych
+with tab1 as (
+  SELECT
+    LEFT(stan_wniosku,10) as stan, Count(*) as ilosc
+    from wnioski
+    where extract(year from data_utworzenia) = 2017 and jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es')
+    group by stan
+    order by Count(*) desc
+),
+tab2 as (
+  Select
+      Count(Case when jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as zlozone
+  from wnioski
+  where extract (year from data_utworzenia) =2017
+)
+SELECT stan, ilosc, round((ilosc::numeric/zlozone)::numeric,3) as procent
+ from tab1,tab2;
+
+
+---zgrupowane stany wnioskow 2017 eng
+with tab1 as (
+  SELECT
+    LEFT(stan_wniosku,10) as stan, Count(*) as ilosc
+    from wnioski
+    where extract(year from data_utworzenia) = 2017 and jezyk like 'en'
+    group by stan
+    order by Count(*) desc
+),
+tab2 as (
+  Select
+      Count(Case when jezyk like 'en' then 1 end) as zlozone
+  from wnioski
+  where extract (year from data_utworzenia) =2017
+)
+SELECT stan, ilosc, round((ilosc::numeric/zlozone)::numeric,3) as procent
+ from tab1,tab2;
+
+-----Dist stan wniosku
+SELECT DISTINCT stan_wniosku
+from wnioski;
+
+-------sprawdzenie wnioskow w stanie nowym dla powyzszego zapytania 57% procent!
+with tab1 as (
+  SELECT *
+    from wnioski
+    where extract(year from data_utworzenia) = 2017
+    and (stan_wniosku like 'nowy') and (jezyk like 'en')
+)
+SELECT *
+ from tab1;
+
+
+SELECT
+       Count(Case when jezyk like 'en' then 1 end) as angielski,
+       Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+       powod_operatora
+from tab1
+Group by powod_operatora
+Order by angielski DESC;
+
+
+/*
+Powody wyplacenia operatora w zależności od języka en oraz inne
+oraz stan wniosku*/
+
+with tab1 as (
+SELECT * from wnioski
+where date_part('year',data_utworzenia) not in ('2018')
+and stan_wniosku like 'wyp%'
+)
+SELECT
+       Count(Case when jezyk like 'en' then 1 end) as angielski,
+       Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+       powod_operatora
+from tab1
+Group by powod_operatora
+Order by angielski DESC;
+
+
+
+with tab1 as (
+SELECT * from wnioski
+where date_part('year',data_utworzenia) not in ('2018')
+and stan_wniosku like 'odrz%'
+)
+SELECT
+       Count(Case when jezyk like 'en' then 1 end) as angielski,
+       Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as inne_jezyki,
+       powod_operatora
+from tab1
+Group by powod_operatora
+Order by angielski DESC;
+
+
+-- wyplacone ze względu na typ wniosku
+with tab1 as (
+SELECT * from wnioski
+where date_part('year',data_utworzenia) not in ('2018')
+and stan_wniosku like 'wyp%'
+)
+SELECT
+       Count(Case when jezyk like 'en' then 1 end) as wyplacone_en,
+       Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as wyplacone_inne,
+       typ_wniosku
+from tab1
+Group by typ_wniosku
+Order by wyplacone_en DESC;
+
+
+---odrzucone
+with tab1 as (
+SELECT * from wnioski
+where date_part('year',data_utworzenia) not in ('2018')
+and stan_wniosku like 'odrz%'
+)
+SELECT
+       Count(Case when jezyk like 'en' then 1 end) as odrzucone_en,
+       Count(Case When jezyk in ('pl', 'da', 'sv', 'pt', 'de', 'nb', 'fi', 'it', 'es') then 1 end) as odrzucone_inne,
+       typ_wniosku
+from tab1
+Group by typ_wniosku
+Order by odrzucone_en DESC;
