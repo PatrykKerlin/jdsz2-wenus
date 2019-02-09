@@ -9,9 +9,10 @@ import math
 import numpy as npimport 
 import matplotlib.pyplot as plt
 from scipy import stats
+from datetime import datetime
+import numpy as np
 
-
-def fibo(k = 70000, m = 100000):    
+def fibo(k = 70000, m = 10000):
    count=0
    a = 0  # x(n-1)
    b = 1  # x(n)
@@ -25,26 +26,33 @@ def fibo(k = 70000, m = 100000):
        ciag.append(a)
    return ciag
 
-def fibonacci_del(m):
-   p = 3
-   q = 7
+def fibo_del():
+   m = 10000
+   p = 24  #k
+   q = 55 #l
    # współczynnik określający zakres generowanych liczb pseudolosowych (od 0 do m-1)
    ciag_wyjsciowy = []
-   dl_ciagu = 10000
-   initial_values = [8, 6000, 7000, 5000, 3000, 12121, 90000]  # q = len(initial_values)
+   dl_ciagu = 70000
+   #initial_values = [8, 6000, 7000, 5000, 3000, 12121, 90000]  # q = len(initial_values)
+   initial_values = []
+   for v in range(q):
+       v = datetime.now().microsecond % m
+       initial_values.append(v)
    for n in range(dl_ciagu):
        for i in range(len(initial_values)):
+
            if i is 0:
                out = (initial_values[p - 1] + initial_values[q - 1]) % m  # the pseudorandom output
            elif 0 < i < len(initial_values) - 1:
                initial_values[i] = initial_values[i + 1]  # shift the array
            else:
                initial_values[i] = out
-           ciag_wyjsciowy.append(initial_values[i])
+               ciag_wyjsciowy.append(initial_values[i])
+               # i-=1
    return ciag_wyjsciowy
 
 def numppp():  # generator numpy
-   m = 100000
+   m = 10000
    dl_ciagu = 70000
    ciag_wyjsciowy = []
    for n in range(dl_ciagu):
@@ -74,21 +82,21 @@ def is_inside_circle(x, y):
 
 #KS: Two samples have the same distribution, pvalue - probablity of observing the stat D
 
-def stat_tests_ks1(fibosimpl, fibodel, nampi):
+def stat_tests_ks1(zbior):
+    D,p = stats.kstest(zbior, 'uniform')
+    if p < 0.05:
+       wynik = 1
+    else:
+       wynik = 0
+    return wynik
 
-   ksSimpl = stats.kstest(fibosimpl, 'uniform')
-   ksDel = stats.kstest(fibodel, 'uniform')
-   ksNampi = stats.kstest(nampi, 'uniform')
-   
-   return ksSimpl, ksDel, ksNampi
-
-def stat_tests_ks2(fibosimpl, fibodel, nampi):
-
-   ksSimplDel = stats.ks_2samp(fibosimpl, fibodel)
-   ksSimpNum  = stats.ks_2samp(fibosimpl, nampi)
-   ksDelNum   = stats.ks_2samp(fibodel, nampi)
-
-   return ksSimplDel, ksSimpNum, ksDelNum
+def stat_tests_ks2(zbior1,zbior2):
+    D, p = stats.ks_2samp(zbior1, zbior2)
+    if p < 0.05:
+        wynik = 1
+    else:
+        wynik = 0
+    return wynik
 
 def wykresiki(fibosimpl, fibodel, nampi):
     
@@ -105,8 +113,13 @@ def wykresiki(fibosimpl, fibodel, nampi):
 input_num = numppp()
 monte_carlo(input_num, 100000)
 
-a,b,c = stat_tests_ks1(fibo(),fibonacci_del(100000), numppp())
-d,e,f = stat_tests_ks2(fibo(),fibonacci_del(100000), numppp())
+a = stat_tests_ks1(fibo())
+b = stat_tests_ks1(fibo_del())
+c = stat_tests_ks1(numppp())
+d = stat_tests_ks2(fibo(),fibo_del())
+e = stat_tests_ks2(fibo(),numppp())
+f = stat_tests_ks2(fibo_del(),numppp())
+
 print()
 print("fibosimpl, 'uniform': ", a)
 print("fibodel, 'uniform': ", b)
@@ -115,5 +128,6 @@ print("fibosimpl, fibodel: ", d)
 print("fibosimpl, nampi: ", e)
 print("fibodel, nampi: ", f)
 
-wykresiki(fibo(),fibonacci_del(100000), numppp())
+wykresiki(fibo(),fibo_del(), numppp())
+
 
