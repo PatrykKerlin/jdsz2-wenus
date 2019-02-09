@@ -1,24 +1,33 @@
 import numpy as np
 import scipy.stats as st
 import pylab as py
+from datetime import datetime
 
-def fibonacci_del(m):
-    p = 3
-    q = 7
-    # współczynnik określający zakres generowanych liczb pseudolosowych (od 0 do m-1)
-    ciag_wyjsciowy = []
-    dl_ciagu = 10000
-    initial_values = [8, 6000, 7000, 5000, 3000, 12121, 90000]  # q = len(initial_values)
-    for n in range(dl_ciagu):
-        for i in range(len(initial_values)):
-            if i is 0:
-                out = (initial_values[p - 1] + initial_values[q - 1]) % m  # the pseudorandom output
-            elif 0 < i < len(initial_values) - 1:
-                initial_values[i] = initial_values[i + 1]  # shift the array
-            else:
-                initial_values[i] = out
-            ciag_wyjsciowy.append(initial_values[i])
-    return ciag_wyjsciowy
+def fibo_del():
+   m = 100
+   p = 24  #k
+   q = 55 #l
+
+# współczynnik określający zakres generowanych liczb pseudolosowych (od 0 do m-1)
+   ciag_wyjsciowy = []
+   dl_ciagu = 70
+   #initial_values = [8, 6000, 7000, 5000, 3000, 12121, 90000]  # q = len(initial_values)
+   initial_values = []
+# Loop that auto generates starting values, q = number of initial values
+   for v in range(q):
+       v = datetime.now().microsecond % m
+       initial_values.append(v)
+   for n in range(dl_ciagu):
+       for i in range(len(initial_values)):
+
+           if i is 0:
+               out = (initial_values[p - 1] + initial_values[q - 1]) % m  # the pseudorandom output
+           elif 0 < i < len(initial_values) - 1:
+               initial_values[i] = initial_values[i + 1]  # shift the array
+           else:
+               initial_values[i] = out
+               ciag_wyjsciowy.append(initial_values[i])
+   return ciag_wyjsciowy
 
 # histogram i f-cja gęstości prawdopodob. dla rozkładu normalnego o średniej
 # oraz wariancji oszacowanej ze zmiennych
@@ -29,7 +38,7 @@ def histogram(x, N_bins):
     py.plot(bincenters, y, 'r--', linewidth=1)
 
 def porownanie(x):
-    fibonacci_del(x)
+    fibo_del()
     py.subplot(2, 2, 2)
     histogram(x, 20)
     W, p_sw = st.shapiro(x)
@@ -40,7 +49,7 @@ def porownanie(x):
     py.title(tytul)
     # statystyki dla pierwszych dziesięciu punktow
     y = x[0:10]
-    fibonacci_del(y)
+    fibo_del()
     py.subplot(2, 2, 4)
     histogram(y, 20)
     W, p_sw = st.shapiro(y)
