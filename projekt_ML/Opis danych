@@ -1,0 +1,24 @@
+ABALONE DATA SET
+Zbiór różnych parametrów słuchotek (uchowców) – ślimaków morskich. 
+Ustalenie wieku takiego ślimaka możliwe jest dopiero po rozcięciu jego muszli i zbadaniu pod mikroskopem ilości pierścieni. 
+Z uwagi na to, że zadanie jest bardzo żmudne i czasochłonne, poszukuje się innych skutecznych metod. 
+Przeznaczeniem tego zbioru to stworzenie systemu, który na podstawie zadanych parametrów, zwróci poprawny wiek słuchotki.
+
+Dostępne atrybuty i przykładowe dane:
+Name		Data Type	Meas.	Description
+----		---------	-----	-----------
+Sex		nominal			M, F, and I (infant)
+Length		continuous	mm	Longest shell measurement
+Diameter	continuous	mm	perpendicular to length
+Height		continuous	mm	with meat in shell
+Whole weight	continuous	grams	whole abalone
+Shucked weight	continuous	grams	weight of meat
+Viscera weight	continuous	grams	gut weight (after bleeding)
+Shell weight	continuous	grams	after being dried
+Rings		integer			+1.5 gives the age in years
+
+M,0.455,0.365,0.095,0.514,0.2245,0.101,0.15,15
+M,0.35,0.265,0.09,0.2255,0.0995,0.0485,0.07,7
+F,0.53,0.42,0.135,0.677,0.2565,0.1415,0.21,9
+M,0.44,0.365,0.125,0.516,0.2155,0.114,0.155,10
+I,0.33,0.255,0.08,0.205,0.0895,0.0395,0.055,7
