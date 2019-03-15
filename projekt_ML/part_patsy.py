@@ -9,40 +9,63 @@ import seaborn as sns
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.linear_model import LogisticRegression
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+
 import patsy
 import matplotlib.pyplot as plt
 import numpy as np
 
 df = pd.read_csv('dane_slimak.csv', encoding = 'utf-8', delim_whitespace=True)
-# sprawdzenie, ze nie ma nullowych wartosci w zbiorze danych
-df.isnull()
-#slimaki_df.isnull().sum()
-#print(df.isnull().sum())
-df['Sex'].replace({'I': 2, 'F': 1, 'M': 0},inplace = True)
-#print(df.head())
-#Macierz korelacji - wstepna propozycja to niepowtarzanie feature engineering Length i Diameter, bo są mocno skorelowane i mają podobną korelację
-sns.heatmap(df.corr(), cmap = 'seismic', annot=True, fmt=".2f")
-plt.show()
-df['age']= (df['Rings']+(1.5)).astype(float)
-X = df.drop(['Rings'], axis = 1)
-y = df['Rings']
+train_X, test_X  = train_test_split(df, random_state=101)
 
-# print(df)
-# print(df.head())
-# print(df.groupby('Sex').mean())
-f = 'Rings~Shell_weight*Height'
-y, X = patsy.dmatrices(f,df, return_type="dataframe")
-print(patsy.dmatrices)
-#print(X.columns)
+
+###---------- interakcje ----------------------
+f = 'Rings~Whole_weight*Length'
+y, X = patsy.dmatrices(f,train_X, return_type="dataframe")
+y_t, X_t = patsy.dmatrices(f,test_X, return_type="dataframe")
 
 y = np.ravel(y)
+y_t = np.ravel(y_t)
+
+# # instantiate a logistic regression model, and fit with X and y
+model = LogisticRegression()
+model = model.fit(X, y)
+
+# # check the accuracy on the training set
+pr = model.predict(X_t)
+
+errors = (abs(pr - y_t)/y_t)*100
+print('MAPE with interactions:',np.mean(errors))
+print(sm.OLS(y, X).fit().summary())
+##------------- bez interakcji --------------------------
+
+f = 'Rings~Whole_weight+Length'
+y, X = patsy.dmatrices(f,train_X, return_type="dataframe")
+y_t, X_t = patsy.dmatrices(f,test_X, return_type="dataframe")
+
+y = np.ravel(y)
+y_t = np.ravel(y_t)
+
 # # instantiate a logistic regression model, and fit with X and y
 model = LogisticRegression()
 model = model.fit(X, y)
 #
 # # check the accuracy on the training set
-model.score(X, y)
-print('model score',model.score(X, y))
+pr = model.predict(X_t)
 
-pd.DataFrame(zip(X.columns, np.transpose(model.coef_)))
-print(pd.DataFrame(zip(X.columns, np.transpose(model.coef_))))
+errors = (abs(pr - y_t)/y_t)*100
+print('MAPE without interactions:',np.mean(errors))
+print(sm.OLS(y, X).fit().summary())
+#WYNIKI LogisticRegression
+# f = 'Rings~Shell_weight*Height' MAPE: 17.4472
+# f = 'Rings~Shell_weight+Height' MAPE: 17.4952
+
+# f = 'Rings~Diameter*Whole_weight' MAPE: 16.9314
+# f = 'Rings~Diameter+Whole_weight' MAPE: 16.9696
+
+# f = 'Rings~Diameter*Viscera_weight' MAPE:  17.4893
+# f = 'Rings~Diameter+Viscera_weight' MAPE: 17.5508
+
+# f = 'Rings~Whole_weight*Length' MAPE: 16.7179
+#f = 'Rings~Whole_weight*Length' MAPE:  16.7524
